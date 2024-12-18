@@ -76,8 +76,7 @@ public class User {
       }
    }
 
-   public void addRole(String role)
-   {
+   public void addRole(String role) {
       String authority = role.contains("ROLE_") ? role : "ROLE_" + role;
       this.authorities.add(new Authority(authority));
    }
