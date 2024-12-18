@@ -41,7 +41,6 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
 
     @Override
     public Profile getByUserId(int id) {
-        Profile profile = null;
 
         try(Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Profiles WHERE user_id = ?")) {
@@ -50,18 +49,8 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
 
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                profile = new Profile(
-                rs.getInt("user_id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
-                rs.getString("phone"),
-                rs.getString("email"),
-                rs.getString("address"),
-                rs.getString("city"),
-                rs.getString("state"),
-                rs.getString("zip")
-                );
-            } return profile;
+                 return mapRow(rs);
+            }
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -102,4 +91,33 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
 
     }
 
+    private Profile mapRow(ResultSet row) throws SQLException {
+        int userId = row.getInt("user_id");
+        String first_name = row.getString("first_name");
+        String last_name = row.getString("last_name");
+        String phone = row.getString("phone");
+        String email = row.getString("email");
+        String address = row.getString("address");
+        String city = row.getString("city");
+        String state = row.getString("state");
+        String zip = row.getString("zip");
+
+        Profile profile = new Profile() {
+            {
+                    setUserId(userId);
+                    setFirstName(first_name);
+                    setLastName(last_name);
+                    setPhone(phone);
+                    setEmail(email);
+                    setAddress(address);
+                    setCity(city);
+                    setState(state);
+                    setZip(zip);
+
+                }};
+        return profile;
+
+    }
 }
+
+

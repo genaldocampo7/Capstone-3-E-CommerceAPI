@@ -20,13 +20,13 @@ import java.security.Principal;
 @RestController
 public class ShoppingCartController {
     // a shopping cart requires
-    private ShoppingCartDao shoppingCartDao;
+
     private UserDao userDao;
     private ProductDao productDao;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartDao shoppingCartDao, UserDao userDao, ProductDao productDao) {
-        this.shoppingCartDao = shoppingCartDao;
+    public ShoppingCartController( UserDao userDao, ProductDao productDao) {
+
         this.userDao = userDao;
         this.productDao = productDao;
     }

@@ -33,8 +33,7 @@ public class ProductsController {
         try {
             return productDao.search(categoryId, minPrice, maxPrice, color);
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -70,7 +69,8 @@ public class ProductsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try {
-            productDao.create(product);
+            // changed .create to .update, pass (id, product) as parameter
+            productDao.update(id, product);
         }
         catch(Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");

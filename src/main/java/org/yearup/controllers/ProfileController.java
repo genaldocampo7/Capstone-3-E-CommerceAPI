@@ -30,8 +30,6 @@ public class ProfileController {
         User user = userDao.getByUserName(principal.getName());
         System.out.println(user);
 
-
-        // get the profile by id
         try
         {
             var profile = profileDao.getByUserId(user.getId());
@@ -47,8 +45,7 @@ public class ProfileController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
-    // C R U D
-    // post get put delete
+
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_USER')")
     public Profile addProfile(@RequestBody Profile profile)
