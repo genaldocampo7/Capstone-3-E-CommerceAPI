@@ -65,23 +65,24 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
              PreparedStatement preparedStatement = connection.prepareStatement("""
                UPDATE Profiles
                SET first_name = ?,
-               last_name = ?
-               phone = ?
-               email = ?
-               address = ?
-               city = ?
-               state = ?
+               last_name = ?,
+               phone = ?,
+               email = ?,
+               address = ?,
+               city = ?,
+               state = ?,
                zip = ?
                WHERE user_id = ?""")
         ) {
             preparedStatement.setString(1, profile.getFirstName());
-            preparedStatement.setString(1, profile.getLastName());
-            preparedStatement.setString(1, profile.getPhone());
-            preparedStatement.setString(1, profile.getEmail());
-            preparedStatement.setString(1, profile.getAddress());
-            preparedStatement.setString(1, profile.getCity());
-            preparedStatement.setString(1, profile.getState());
-            preparedStatement.setString(1, profile.getZip());
+            preparedStatement.setString(2, profile.getLastName());
+            preparedStatement.setString(3, profile.getPhone());
+            preparedStatement.setString(4, profile.getEmail());
+            preparedStatement.setString(5, profile.getAddress());
+            preparedStatement.setString(6, profile.getCity());
+            preparedStatement.setString(7, profile.getState());
+            preparedStatement.setString(8, profile.getZip());
+            preparedStatement.setInt(9, userId);
 
             preparedStatement.executeUpdate();
 
@@ -89,6 +90,20 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void delete(int userid) {
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = getConnection().prepareStatement("DELETE FROM Profiles WHERE user_id = ?")
+        ) {
+            preparedStatement.setInt(1, userid);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Profile mapRow(ResultSet row) throws SQLException {

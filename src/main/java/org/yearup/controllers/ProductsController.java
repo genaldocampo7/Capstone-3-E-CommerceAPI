@@ -33,7 +33,7 @@ public class ProductsController {
         try {
             return productDao.search(categoryId, minPrice, maxPrice, color);
         }
-        catch(Exception ex) {
+        catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -49,7 +49,7 @@ public class ProductsController {
 
             return product;
         }
-        catch(Exception ex) {
+        catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -60,7 +60,7 @@ public class ProductsController {
         try {
             return productDao.create(product);
         }
-        catch(Exception ex) {
+        catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -72,7 +72,7 @@ public class ProductsController {
             // changed .create to .update, pass (id, product) as parameter
             productDao.update(id, product);
         }
-        catch(Exception ex) {
+        catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -87,8 +87,8 @@ public class ProductsController {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
             productDao.delete(id);
-        }
-        catch(Exception ex) {
+
+        } catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }

@@ -25,13 +25,11 @@ public class ProfileController {
 
     @GetMapping()
     @PreAuthorize("permitAll()")
-    public Profile getById(Principal principal)
-    {
+    public Profile getById(Principal principal) {
         User user = userDao.getByUserName(principal.getName());
         System.out.println(user);
 
-        try
-        {
+        try {
             var profile = profileDao.getByUserId(user.getId());
 
             if(profile == null)
@@ -39,9 +37,8 @@ public class ProfileController {
 
             return profile;
         }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
+        catch(Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -50,13 +47,11 @@ public class ProfileController {
     @PreAuthorize("hasRole('ROLE_USER')")
     public Profile addProfile(@RequestBody Profile profile)
     {
-        try
-        {
+        try {
             return profileDao.create(profile);
         }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
+        catch(Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -64,13 +59,11 @@ public class ProfileController {
     @PutMapping()
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @CrossOrigin
-    public void updateProfile(Principal principal, @RequestBody Profile profile)
-    {
-        // update the profile by id
+    public void updateProfile(Principal principal, @RequestBody Profile profile) {
+
         User user = userDao.getByUserName(principal.getName());
 
-        try
-        {
+        try {
             var profile2 = profileDao.getByUserId(user.getId());
 
             if(profile2 == null)
@@ -78,9 +71,25 @@ public class ProfileController {
 
             profileDao.update(profile2.getUserId(), profile);
         }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
+        catch(Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
+
+    }
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteProfile(@PathVariable int id) {
+
+        try {
+            var profile = profileDao.getByUserId(id);
+
+            if(profile == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+            profileDao.delete(id);
+
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
 
