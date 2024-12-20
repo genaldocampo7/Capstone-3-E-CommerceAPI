@@ -77,6 +77,9 @@ public class ProfileController {
         }
 
     }
+
+    // added delete profile method as an optional feature
+
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProfile(@PathVariable int id) {
